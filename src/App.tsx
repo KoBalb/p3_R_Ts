@@ -14,7 +14,7 @@ function App() {
   const onSubmit = async (data: any) => {
     console.log(data)
         const response = await axios.post<TodoEx>("https://jsonplaceholder.typicode.com/posts", data)
-        console.log()
+        localStorage.setItem('todos', JSON.stringify([{ name: response.data.name, text: response.data.text, exerciseType: response.data.exerciseType, }]));
   }
 
   return (
