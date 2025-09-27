@@ -12,10 +12,12 @@ function App() {
     },
   })
   const onSubmit = async (data: any) => {
-    console.log(data)
-        const response = await axios.post<TodoEx>("https://jsonplaceholder.typicode.com/posts", data)
-        localStorage.setItem('todos', JSON.stringify([{ name: response.data.name, text: response.data.text, exerciseType: response.data.exerciseType, }]));
-  }
+        await axios.post<TodoEx>("https://jsonplaceholder.typicode.com/posts", data)
+        const oldTodos: TodoEx[] = JSON.parse(localStorage.getItem('todos') || '[]');
+        const newTodos = [...oldTodos, data];
+        localStorage.setItem('todos', JSON.stringify(newTodos));
+
+      }
 
   return (
     <>
