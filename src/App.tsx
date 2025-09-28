@@ -18,7 +18,7 @@ function App() {
         localStorage.setItem('todos', JSON.stringify(newTodos));
 
       }
-
+       const Todos: TodoEx[] = JSON.parse(localStorage.getItem('todos') || '[]');
   return (
     <>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -49,6 +49,8 @@ function App() {
   )}/>
           <button type='submit'>send</button>
         </form>
+              {Todos.map((todoItem) => <div key={todoItem.id}>{todoItem.id}, {todoItem.name}, </div>)}
+
     </>
   )
 }
