@@ -2,6 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import './App.css'
 import type { TodoEx } from './TodoListType';
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 function App() {
   const {control, register, handleSubmit} = useForm<TodoEx>({
@@ -11,11 +12,17 @@ function App() {
       exerciseType: 'зовнішня',
     },
   })
+  const {mutate} = useMutation({
+    mutationKey : ['add exercise'],
+    mutationFn : async (data) => await axios.post<TodoEx>("https://jsonplaceholder.typicode.com/posts", data).then(() => console.log(data))
+
+  })
   const onSubmit = async (data: any) => {
-        await axios.post<TodoEx>("https://jsonplaceholder.typicode.com/posts", data)
+        mutate(data)
         const oldTodos: TodoEx[] = JSON.parse(localStorage.getItem('todos') || '[]');
         const newTodos = [...oldTodos, data];
         localStorage.setItem('todos', JSON.stringify(newTodos));
+        console.log(data)
 
       }
        const Todos: TodoEx[] = JSON.parse(localStorage.getItem('todos') || '[]');
